@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Portal - Student Mid-Term Report</title>
+    <style>
+        :root {
+            --primary: #3b82f6; 
+            --primary-hover: #2563eb;
+            --secondary: #ffffff;
+            --success: #4ade80; 
+            --bg-gradient: linear-gradient(135deg, #090d16 0%, #1e3a8a 50%, #090d16 100%);
+            --card-bg: rgba(15, 23, 42, 0.75); 
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border: rgba(255, 255, 255, 0.08); 
+            --whatsapp: #25d366;
+            --sms: #f59e0b;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg-gradient);
+            background-attachment: fixed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            color: var(--text-main);
+            box-sizing: border-box;
+        }
+
+        .container {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 40px 35px; 
+            border-radius: 24px; 
+            box-shadow: 0 30px 70px -10px rgba(0, 0, 0, 0.6),
+                        0 0 0 1px rgba(59, 130, 246, 0.2),
+                        0 0 25px 0 rgba(30, 58, 138, 0.3); 
+            width: 100%;
+            max-width: 480px;
+            border: 1px solid var(--border);
+            transition: max-width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header-area {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .school-crest-container {
+            width: 105px;
+            height: 105px;
+            margin: 0 auto 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            padding: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
+        }
+
+        .school-crest-img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: 50%;
+        }
+
+        h2 {
+            color: var(--secondary);
+            margin: 0;
+            font-size: 30px; 
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            text-shadow: 0 0 12px rgba(255, 255, 255, 0.4), 0 0 20px rgba(3b, 130, 246, 0.4);
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 16px;
+            margin-top: 8px;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-muted);
+            letter-spacing: 0.3px;
+        }
+
+        input {
+            width: 100%;
+            padding: 16px 18px; 
+            border: 1.5px solid var(--border);
+            border-radius: 12px; 
+            box-sizing: border-box;
+            font-size: 17px;
+            transition: all 0.25s ease;
+            background: rgba(15, 23, 42, 0.4);
+            color: #ffffff;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(15, 23, 42, 0.6);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.25), 0 0 15px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-access {
+            width: 100%;
+            padding: 16px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px; 
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-access:hover {
+            transform: translateY(-2px);
+            background-color: var(--primary-hover);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.5);
+        }
+
+        #error-msg {
+            color: #f87171;
+            text-align: center;
+            font-size: 16px;
+            font-weight: 500;
+            margin-top: 15px;
+            background: rgba(220, 38, 38, 0.15);
+            border: 1px solid rgba(220, 38, 38, 0.3);
+            padding: 12px;
+            border-radius: 6px;
+            display: none;
+        }
+
+        .profile-badge {
+            background: linear-gradient(to right, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+            padding: 20px;
+            border-radius: 14px;
+            margin-bottom: 25px;
+            border-left: 6px solid var(--primary);
+            border-top: 1px solid var(--border);
+            border-right: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .profile-name {
+            font-size: 22px; 
+            font-weight: 700;
+            color: var(--secondary);
+            margin: 0;
+            text-shadow: 0 0 10px rgba(255,255,255,0.2);
+        }
+
+        .report-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        .report-table th, .report-table td {
+            padding: 15px 16px; 
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+            font-size: 16px; 
+        }
+
+        .report-table th {
+            background: linear-gradient(90deg, rgba(30, 58, 138, 0.5) 0%, rgba(59, 130, 246, 0.2) 100%);
+            color: #ffffff;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 14px; 
+            letter-spacing: 1px;
+            border-top: 1px solid rgba(59, 130, 246, 0.3);
+            border-bottom: 2px solid var(--primary);
+            text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+            padding: 16px;
+        }
+
+        .report-table tbody tr:hover {
+            background-color: rgba(255, 255, 255, 0.03);
+            transition: background-color 0.2s ease;
+        }
+
+        .score-badge {
+            font-weight: 700;
+            background: rgba(255, 255, 255, 0.08);
+            padding: 6px 14px; 
+            border-radius: 8px;
+            color: #ffffff;
+            display: inline-block;
+            border: 1px solid rgba(255,255,255,0.1);
+            font-size: 16px; 
+        }
+
+        .total-row {
+            background-color: rgba(74, 222, 128, 0.03) !important;
+            font-weight: 700;
+            color: var(--success);
+            text-shadow: 0 0 8px rgba(74, 222, 128, 0.3);
+            font-size: 17px; 
+        }
+        
+        .total-row .score-badge {
+            background: rgba(74, 222, 128, 0.15);
+            color: var(--success);
+            border: 1px solid rgba(74, 222, 128, 0.3);
+            box-shadow: 0 0 10px rgba(74, 222, 128, 0.2);
+            font-size: 17px;
+        }
+
+        .rank-row {
+            background-color: rgba(59, 130, 246, 0.03) !important;
+            font-weight: 700;
+            color: #60a5fa;
+            text-shadow: 0 0 8px rgba(96, 165, 250, 0.3);
+            font-size: 17px;
+        }
+
+        .rank-row .score-badge {
+            background: rgba(59, 130, 246, 0.18);
+            color: #60a5fa;
+            border: 1px solid rgba(96, 165, 250, 0.3);
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.2);
+            font-size: 17px;
+        }
+
+        .share-section {
+            margin-top: 35px;
+            padding-top: 25px;
+            border-top: 2px dashed rgba(255,255,255,0.1);
+        }
+
+        .share-title {
+            font-size: 14px; 
+            font-weight: 700;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .share-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .btn-share { 
+            font-size: 15px; 
+            padding: 14px 5px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 6px; 
+            border-radius: 10px; 
+            color: white; 
+            border: none; 
+            font-weight: 600; 
+            cursor: pointer;
+            transition: transform 0.2s, opacity 0.2s;
+        }
+        .btn-share:hover { transform: translateY(-1px); opacity: 0.95; }
+        .btn-email { background-color: #ea4335; }
+        .btn-sms { background-color: var(--sms); }
+        .btn-wa { background-color: var(--whatsapp); }
+
+        .action-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-top: 25px;
+        }
+
+        .btn-alt { background-color: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 16px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+        .btn-alt:hover { transform: translateY(-1px); background-color: rgba(255,255,255,0.15); }
+
+        /* Custom Futuristic Under-Construction Banner Notification */
+        .system-alert-box {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-100px);
+            background: rgba(15, 23, 42, 0.95);
+            border: 1px solid #f59e0b;
+            box-shadow: 0 10px 30px rgba(245, 158, 11, 0.2), 0 0 15px rgba(245, 158, 11, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 16px 24px;
+            border-radius: 14px;
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 9999;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            width: 90%;
+            max-width: 400px;
+            box-sizing: border-box;
+        }
+        .system-alert-box.active {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        @media print {
+            body { background: white; color: black; }
+            .container { box-shadow: none; max-width: 100%; padding: 0; background: transparent; backdrop-filter: none; }
+            .action-buttons, .share-section, .school-crest-container, .system-alert-box { display: none !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="statusAlert" class="system-alert-box">
+        <span>⚙️</span>
+        <div>
+            <div style="color: #f59e0b; font-weight: 700; margin-bottom: 2px;">Feature coming soon!</div>
+            <div style="font-size: 13px; color: var(--text-muted); font-weight: 400;">The digital delivery suite is under fixation.</div>
+        </div>
+    </div>
+
+    <div class="container" id="mainBox">
+        <div class="header-area">
+            <div class="school-crest-container">
+                <img src="schoollogo.jpg" alt="School Crest" class="school-crest-img" onerror="this.onerror=null; this.src='/schoollogo.jpg?v=1';">
+            </div>
+            <h2>School Portal</h2>
+            <div class="subtitle">Enter credentials to view mid-term reports</div>
+        </div>
+
+        <div class="input-group">
+            <label for="sid">Student ID Number</label>
+            <input type="text" id="sid" placeholder="e.g. STU-001">
+        </div>
+
+        <div class="input-group">
+            <label for="pass">Security Password</label>
+            <input type="password" id="pass" placeholder="••••••••">
+        </div>
+
+        <button onclick="runLogin()" class="btn-access">Access Results</button>
+        <div id="error-msg"></div>
+    </div>
+
+    <script>
+        let currentStudentData = null;
+
+        function showSystemNotice() {
+            const alertBox = document.getElementById('statusAlert');
+            alertBox.classList.add('active');
+            
+            // Automatically glides away out of frame after 3.5 seconds
+            setTimeout(() => {
+                alertBox.classList.remove('active');
+            }, 3500);
+        }
+
+        function showResults(result) {
+            currentStudentData = result; 
+            document.getElementById('mainBox').style.maxWidth = '640px'; 
+            document.getElementById('mainBox').innerHTML = `
+                <div class="header-area">
+                    <div class="school-crest-container">
+                        <img src="schoollogo.jpg" alt="School Crest" class="school-crest-img" onerror="this.onerror=null; this.src='/schoollogo.jpg?v=1';">
+                    </div>
+                    <h2>Mid-Term Report Card</h2>
+                    <div class="subtitle">Official Academic Performance Record</div>
+                </div>
+
+                <div class="profile-badge">
+                    <div class="profile-name">${result.name}</div>
+                    <div style="font-size: 15px; color: var(--text-muted); margin-top: 5px;">Student Performance Record</div>
+                </div>
+
+                <table class="report-table">
+                    <thead>
+                        <tr>
+                            <th style="border-top-left-radius: 12px; border-bottom-left-radius: 0px;">Subject Course</th>
+                            <th style="text-align: right; border-top-right-radius: 12px; border-bottom-right-radius: 0px;">Obtained Score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>English Language</td><td style="text-align: right;"><span class="score-badge">${result.english}</span></td></tr>
+                        <tr><td>Mathematics</td><td style="text-align: right;"><span class="score-badge">${result.maths}</span></td></tr>
+                        <tr><td>Integrated Science</td><td style="text-align: right;"><span class="score-badge">${result.science}</span></td></tr>
+                        <tr><td>Social Studies</td><td style="text-align: right;"><span class="score-badge">${result.socialStudies}</span></td></tr>
+                        <tr><td>R.M.E</td><td style="text-align: right;"><span class="score-badge">${result.rme}</span></td></tr>
+                        <tr><td>Computing</td><td style="text-align: right;"><span class="score-badge">${result.computing}</span></td></tr>
+                        <tr><td>Creative Arts</td><td style="text-align: right;"><span class="score-badge">${result.creativeArts}</span></td></tr>
+                        <tr><td>Career Technology</td><td style="text-align: right;"><span class="score-badge">${result.careerTech}</span></td></tr>
+                        <tr><td>Fante</td><td style="text-align: right;"><span class="score-badge">${result.fante}</span></td></tr>
+                        <tr><td>French</td><td style="text-align: right;"><span class="score-badge">${result.french}</span></td></tr>
+                        <tr class="total-row"><td>RAW SCORE TOTAL</td><td style="text-align: right;"><span class="score-badge">${result.rawScore}</span></td></tr>
+                        <tr class="rank-row"><td>CLASS RANKING</td><td style="text-align: right;"><span class="score-badge">${result.classRanking}</span></td></tr>
+                    </tbody>
+                </table>
+
+                <div class="share-section">
+                    <div class="share-title">Send Report To Parents</div>
+                    <div class="share-grid">
+                        <button onclick="showSystemNotice()" class="btn-share btn-email">📧 Email</button>
+                        <button onclick="showSystemNotice()" class="btn-share btn-sms">💬 SMS</button>
+                        <button onclick="showSystemNotice()" class="btn-share btn-wa">🟢 WhatsApp</button>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button onclick="window.print()" class="btn-alt" style="background-color: #059669; border: none;">Print Report</button>
+                    <button onclick="window.location.reload()" class="btn-alt">Logout</button>
+                </div>
+            `;
+        }
+
+        function runLogin() {
+            const id = document.getElementById('sid').value;
+            const pw = document.getElementById('pass').value;
+            const error = document.getElementById('error-msg');
+
+            error.style.display = 'none';
+
+            fetch('/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ studentID: id, password: pw })
+            })
+            .then(res => res.json())
+            .then(result => {
+                if (result.success) {
+                    showResults(result);
+                } else {
+                    error.innerText = result.message;
+                    error.style.display = 'block';
+                }
+            })
+            .catch(err => {
+                console.log("Server state execution confirmation map lookup link check.");
+                error.innerText = "Connection issue. Verify server state.";
+                error.style.display = 'block';
+            });
+        }
+    </script>
+</body>
+</html>
